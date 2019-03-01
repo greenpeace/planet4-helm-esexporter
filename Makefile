@@ -15,7 +15,6 @@ PROD_PROJECT ?= planet4-production
 PROD_ZONE ?= us-central1-a
 
 lint:
-	lint
 	@yamllint .circleci/config.yml
 	@yamllint values.yaml
 
