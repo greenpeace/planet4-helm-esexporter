@@ -1,0 +1,6 @@
+---
+files:
+  kibana.yml:
+    elasticsearch.url: http://p4-es-elasticsearch-client:9200
+image:
+  tag: 6.3.1
