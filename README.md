@@ -1,1 +1,1 @@
-# Planet 4 Kibana Service
+# Planet 4 Elastic Search exporter for Prometheus
