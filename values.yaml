@@ -5,8 +5,9 @@ es:
 
 serviceMonitor:
   ## Need to create a serviceMonitor so this exporter can been seen by prom
-  ## And the labels need to match the names of the prom esp. release from what I can tell.
-  ## To check if its working you can check the Prom targets at http://localhost:9090/targets
+  ## Labels need to match the names of the prom esp. release.
+  ## To check if its working you can check the Prom targets at
+  ## http://localhost:9090/targets
   ## https://github.com/coreos/prometheus-operator
   ##
   enabled: true
