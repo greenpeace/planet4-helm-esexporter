@@ -14,34 +14,70 @@ PROD_CLUSTER ?= planet4-production
 PROD_PROJECT ?= planet4-production
 PROD_ZONE ?= us-central1-a
 
-lint:
-	@yamllint .circleci/config.yml
-	@yamllint values.yaml
+.DEFAULT_TARGET: status
 
+lint: lint-yaml lint-ci
+
+lint-yaml:
+	@find . -type f -name '*.yml' | xargs yamllint
+	@find . -type f -name '*.yaml' | xargs yamllint
+
+lint-ci:
+	@circleci config validate
+
+# Helm Initialisation
 init:
-	helm init --client-only
-	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-	helm repo update
+	helm3 repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm3 repo update
 
-dev: init lint
+# Helm Deploy to Development
+dev: lint init
+ifndef CI
+	$(error Please commit and push, this is intended to be run in a CI environment)
+endif
 	gcloud config set project $(DEV_PROJECT)
 	gcloud container clusters get-credentials $(DEV_CLUSTER) --zone $(DEV_ZONE) --project $(DEV_PROJECT)
-	helm upgrade --install --force --wait $(RELEASE_NAME) \
+	-kubectl create namespace $(NAMESPACE)
+	helm3 upgrade --install --wait $(RELEASE) \
 		--namespace=$(NAMESPACE) \
 		--version $(CHART_VERSION) \
 		-f values.yaml \
 		$(CHART_NAME)
+	$(MAKE) history
 
-prod: lint
+# Helm Deploy to Production
+prod: lint init
+ifndef CI
+	$(error Please commit and push, this is intended to be run in a CI environment)
+endif
 	gcloud config set project $(PROD_PROJECT)
-	gcloud container clusters get-credentials $(PROD_CLUSTER) --zone $(PROD_ZONE) --project $(PROD_PROJECT)
-	helm init --client-only
-	helm repo update
-	helm upgrade --install --force --wait $(RELEASE_NAME) \
+	gcloud container clusters get-credentials $(PROD_PROJECT) --zone $(PROD_ZONE) --project $(PROD_PROJECT)
+	-kubectl create namespace $(NAMESPACE)
+	helm3 upgrade --install --wait $(RELEASE) \
 		--namespace=$(NAMESPACE) \
 		--version $(CHART_VERSION) \
 		-f values.yaml \
 		$(CHART_NAME)
+	$(MAKE) history
 
+# Helm status
+status:
+	helm3 status $(CHART_NAME) -n $(NAMESPACE)
+
+# Display user values followed by all values
+values:
+	helm3 get values $(CHART_NAME) -n $(NAMESPACE)
+	helm3 get values $(CHART_NAME) -n $(NAMESPACE) -a
+
+# Display helm history
 history:
-	helm history $(RELEASE_NAME) --max=10
+	helm3 history $(RELEASE) -n $(NAMESPACE) --max=5
+
+# Delete a release when you intend reinstalling it to keep history
+uninstall:v
+	helm3 uninstall $(RELEASE) -n $(NAMESPACE) --keep-history
+
+# Completely remove helm install, config data, persistent volumes etc.
+# Before running this ensure you have deleted any other related config
+destroy:
+	helm3 uninstall $(RELEASE) -n $(NAMESPACE)
