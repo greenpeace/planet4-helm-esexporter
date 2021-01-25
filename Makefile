@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-RELEASE_NAME := es-exp
+RELEASE := es-exp
 NAMESPACE := kube-system
 
 CHART_NAME ?= prometheus-community/prometheus-elasticsearch-exporter

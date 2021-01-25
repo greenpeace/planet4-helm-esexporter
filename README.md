@@ -26,7 +26,7 @@ This repository is deployed via [CircleCI](https://circleci.com/gh/greenpeace/pl
  - Approval and merge deploys to production.
 
 ### Usage
- - Access Grafana [here](https://grafana.p4.greenpeace.org/?orgId=1)
+ - Access Grafana to see Elasticsearch Dashboard [here](https://grafana.p4.greenpeace.org/?orgId=1)
  - Clone the repo to access makefile commands via cli that are not executed via CircleCI
    - `make status` - <em> display status of named release </em>
    - `make value` - <em> display user values followed by all values deployed </em>
