@@ -73,7 +73,7 @@ workflows:
       - dev:
           context: org-global
           requires:
-            - test
+            - lint
           filters:
             branches:
               only:
@@ -81,7 +81,7 @@ workflows:
       - prod:
           context: org-global
           requires:
-            - test
+            - lint
           filters:
             branches:
               only:
