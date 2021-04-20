@@ -20,5 +20,7 @@ serviceMonitor:
   scheme: http
   relabelings: []
   targetLabels: []
-  metricRelabelings: []
+  metricRelabelings:
+    - source_labels: name
+    - target_label: elastic_node_name
   sampleLimit: 0
