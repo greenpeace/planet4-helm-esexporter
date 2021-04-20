@@ -21,6 +21,7 @@ serviceMonitor:
   relabelings: []
   targetLabels: []
   metricRelabelings:
-    - sourceLabels: name
+    - sourceLabels: 
+        - name
       targetLabel: elastic_node_name
   sampleLimit: 0
