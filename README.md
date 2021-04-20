@@ -9,8 +9,6 @@ Learn more: https://github.com/justwatchcom/elasticsearch_exporter
 
 <h1>Important Notes</h1>
 
->NOT currently deployed to the production cluster.
-
 ***
 ### Requirements - Internal Only
 -   Access to P4 Infra [environment](https://www.notion.so/p4infra/bab9d0b1f2db4d929a59916899d531c1?v=eca7b78e1ae345c6883a9b37c6b76cac)
@@ -26,7 +24,7 @@ This repository is deployed via [CircleCI](https://circleci.com/gh/greenpeace/pl
  - Approval and merge deploys to production.
 
 ### Usage
- - Access Grafana to see Elasticsearch Dashboard [here](https://grafana.p4.greenpeace.org/?orgId=1)
+ - Access Grafana to see Elasticsearch Dashboard [here](https://grafana.greenpeace.org/d/7K5QQcuMp/p4-elasticsearch-status?orgId=1&refresh=1m)
  - Clone the repo to access makefile commands via cli that are not executed via CircleCI
    - `make status` - <em> display status of named release </em>
    - `make value` - <em> display user values followed by all values deployed </em>
@@ -39,7 +37,6 @@ This repository is deployed via [CircleCI](https://circleci.com/gh/greenpeace/pl
    - [Planet 4 Handbook](https://app.gitbook.com/@greenpeace/s/planet4/infrastructure/intro)
  - Internal use only
    - [P4 Notion](https://www.notion.so/p4infra/)
-   - [P4 Google Site](https://sites.google.com/greenpeace.org/p4-infra)
 
  ### Contributing
  If your interested in contributing to P4 Infrastructure code please check our our community page [here](https://github.com/greenpeace/planet4).
