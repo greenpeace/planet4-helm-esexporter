@@ -12,7 +12,7 @@ defaults: &defaults
 version: 2
 
 jobs:
-  test:
+  lint:
     <<: *defaults
     steps:
       - checkout
@@ -68,12 +68,12 @@ workflows:
   version: 2
   commit:
     jobs:
-      - test:
+      - lint:
           context: org-global
       - dev:
           context: org-global
           requires:
-            - test
+            - lint
           filters:
             branches:
               only:
@@ -81,7 +81,7 @@ workflows:
       - prod:
           context: org-global
           requires:
-            - test
+            - lint
           filters:
             branches:
               only:
